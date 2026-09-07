@@ -21,7 +21,16 @@ const getCatById = (req, res) => {
 };
 
 const postCat = (req, res) => {
-  const newCat = addCat(req.body);
+  console.log('body:', req.body);
+  console.log('file:', req.file);
+
+  const cat = {
+    ...req.body,
+    filename: req.file ? req.file.filename : null,
+  };
+
+  const newCat = addCat(cat);
+
   res.status(201).json(newCat);
 };
 

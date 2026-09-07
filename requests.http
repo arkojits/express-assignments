@@ -9,3 +9,67 @@ Content-Type: application/json
   "role": "user",
   "password": "password"
 }
+
+### Get all users
+GET http://127.0.0.1:3000/api/v1/users
+
+### Update user
+PUT http://127.0.0.1:3000/api/v1/users/1
+Content-Type: application/json
+
+{
+  "name": "Updated User"
+}
+
+### Delete user
+DELETE http://127.0.0.1:3000/api/v1/users/1
+
+### Add cat
+POST http://127.0.0.1:3000/api/v1/cats
+Content-Type: application/json
+
+{
+  "cat_name": "Leo",
+  "weight": 6,
+  "owner": 1,
+  "filename": "cat.jpg",
+  "birthdate": "2024-01-10"
+}
+
+### Update cat
+PUT http://127.0.0.1:3000/api/v1/cats/1
+Content-Type: application/json
+
+{
+  "cat_name": "Updated Misu"
+}
+
+### Delete cat
+DELETE http://127.0.0.1:3000/api/v1/cats/1
+
+### Upload cat with image
+POST http://127.0.0.1:3000/api/v1/cats
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary
+Content-Disposition: form-data; name="cat_name"
+
+Leo
+--MyBoundary
+Content-Disposition: form-data; name="weight"
+
+6
+--MyBoundary
+Content-Disposition: form-data; name="owner"
+
+1
+--MyBoundary
+Content-Disposition: form-data; name="birthdate"
+
+2024-01-10
+--MyBoundary
+Content-Disposition: form-data; name="cat"; filename="cat.jpg"
+Content-Type: image/jpeg
+
+< ./public/cat.jpg
+--MyBoundary--
