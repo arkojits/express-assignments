@@ -73,3 +73,15 @@ Content-Type: image/jpeg
 
 < ./public/cat.jpg
 --MyBoundary--
+
+### Update cat
+PUT http://127.0.0.1:3000/api/v1/cats/1
+Content-Type: application/json
+
+{
+  "cat_name": "Misu Updated",
+  "weight": 5.5,
+  "owner": 1,
+  "filename": "cat.jpg",
+  "birthdate": "2022-05-10"
+}

@@ -1,38 +1,70 @@
-const catItems = [
-  {
-    cat_id: 1,
-    cat_name: 'Misu',
-    weight: 5,
-    owner: 1,
-    filename: 'cat.jpg',
-    birthdate: '2022-05-10',
-  },
-  {
-    cat_id: 2,
-    cat_name: 'Luna',
-    weight: 4,
-    owner: 2,
-    filename: 'cat.jpg',
-    birthdate: '2023-02-15',
-  },
-];
+import pool from '../../db/database.js';
 
-const listAllCats = () => {
-  return catItems;
+const listAllCats = async () => {
+  const [rows] = await pool.query('SELECT * FROM cats');
+  return rows;
 };
 
-const findCatById = (id) => {
-  return catItems.find((cat) => cat.cat_id == id);
+const findCatById = async (id) => {
+  const [rows] = await pool.query(
+    'SELECT * FROM cats WHERE cat_id = ?',
+    [id]
+  );
+
+  return rows[0];
 };
 
-const addCat = (cat) => {
-  const newCat = {
-    cat_id: catItems.length + 1,
+const addCat = async (cat) => {
+  const [result] = await pool.query(
+    `INSERT INTO cats
+    (cat_name, weight, owner, filename, birthdate)
+    VALUES (?, ?, ?, ?, ?)`,
+    [
+      cat.cat_name,
+      cat.weight,
+      cat.owner,
+      cat.filename,
+      cat.birthdate,
+    ]
+  );
+
+  return {
+    cat_id: result.insertId,
     ...cat,
   };
-
-  catItems.push(newCat);
-  return newCat;
 };
 
-export {listAllCats, findCatById, addCat};
+const updateCat = async (id, cat) => {
+  const [result] = await pool.query(
+    `UPDATE cats
+    SET cat_name = ?, weight = ?, owner = ?, filename = ?, birthdate = ?
+    WHERE cat_id = ?`,
+    [
+      cat.cat_name,
+      cat.weight,
+      cat.owner,
+      cat.filename,
+      cat.birthdate,
+      id,
+    ]
+  );
+
+  return result.affectedRows;
+};
+
+const deleteCatById = async (id) => {
+  const [result] = await pool.query(
+    'DELETE FROM cats WHERE cat_id = ?',
+    [id]
+  );
+
+  return result.affectedRows;
+};
+
+export {
+  listAllCats,
+  findCatById,
+  addCat,
+  updateCat,
+  deleteCatById,
+};

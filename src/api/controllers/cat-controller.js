@@ -2,14 +2,17 @@ import {
   listAllCats,
   findCatById,
   addCat,
+  updateCat,
+  deleteCatById,
 } from '../models/cat-model.js';
 
-const getCats = (req, res) => {
-  res.json(listAllCats());
+const getCats = async (req, res) => {
+  const cats = await listAllCats();
+  res.json(cats);
 };
 
-const getCatById = (req, res) => {
-  const cat = findCatById(req.params.id);
+const getCatById = async (req, res) => {
+  const cat = await findCatById(req.params.id);
 
   if (!cat) {
     return res.status(404).json({
@@ -20,7 +23,7 @@ const getCatById = (req, res) => {
   res.json(cat);
 };
 
-const postCat = (req, res) => {
+const postCat = async (req, res) => {
   console.log('body:', req.body);
   console.log('file:', req.file);
 
@@ -29,20 +32,36 @@ const postCat = (req, res) => {
     filename: req.file ? req.file.filename : null,
   };
 
-  const newCat = addCat(cat);
+  const newCat = await addCat(cat);
 
   res.status(201).json(newCat);
 };
 
-const putCat = (req, res) => {
+const putCat = async (req, res) => {
+  const updated = await updateCat(req.params.id, req.body);
+
+  if (!updated) {
+    return res.status(404).json({
+      message: 'Cat not found',
+    });
+  }
+
   res.json({
-    message: 'Cat updated',
+    message: 'Cat item updated.',
   });
 };
 
-const deleteCat = (req, res) => {
+const deleteCat = async (req, res) => {
+  const deleted = await deleteCatById(req.params.id);
+
+  if (!deleted) {
+    return res.status(404).json({
+      message: 'Cat not found',
+    });
+  }
+
   res.json({
-    message: 'Cat deleted',
+    message: 'Cat item deleted.',
   });
 };
 

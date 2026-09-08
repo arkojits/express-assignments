@@ -2,14 +2,17 @@ import {
   listAllUsers,
   findUserById,
   addUser,
+  updateUser,
+  deleteUserById,
 } from '../models/user-model.js';
 
-const getUsers = (req, res) => {
-  res.json(listAllUsers());
+const getUsers = async (req, res) => {
+  const users = await listAllUsers();
+  res.json(users);
 };
 
-const getUserById = (req, res) => {
-  const user = findUserById(req.params.id);
+const getUserById = async (req, res) => {
+  const user = await findUserById(req.params.id);
 
   if (!user) {
     return res.status(404).json({
@@ -20,18 +23,35 @@ const getUserById = (req, res) => {
   res.json(user);
 };
 
-const postUser = (req, res) => {
-  const newUser = addUser(req.body);
+const postUser = async (req, res) => {
+  const newUser = await addUser(req.body);
+
   res.status(201).json(newUser);
 };
 
-const putUser = (req, res) => {
+const putUser = async (req, res) => {
+  const updated = await updateUser(req.params.id, req.body);
+
+  if (!updated) {
+    return res.status(404).json({
+      message: 'User not found',
+    });
+  }
+
   res.json({
     message: 'User item updated.',
   });
 };
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
+  const deleted = await deleteUserById(req.params.id);
+
+  if (!deleted) {
+    return res.status(404).json({
+      message: 'User not found',
+    });
+  }
+
   res.json({
     message: 'User item deleted.',
   });
