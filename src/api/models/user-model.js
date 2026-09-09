@@ -14,6 +14,15 @@ const findUserById = async (id) => {
   return rows[0];
 };
 
+const findUserByUsername = async (username) => {
+  const [rows] = await pool.query(
+    'SELECT * FROM users WHERE username = ?',
+    [username]
+  );
+
+  return rows[0];
+};
+
 const addUser = async (user) => {
   const [result] = await pool.query(
     `INSERT INTO users
@@ -64,6 +73,7 @@ const deleteUserById = async (id) => {
 export {
   listAllUsers,
   findUserById,
+  findUserByUsername,
   addUser,
   updateUser,
   deleteUserById,

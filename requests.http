@@ -85,3 +85,60 @@ Content-Type: application/json
   "filename": "cat.jpg",
   "birthdate": "2022-05-10"
 }
+
+### Delete cat
+DELETE http://127.0.0.1:3000/api/v1/cats/2
+
+### Add user
+POST http://127.0.0.1:3000/api/v1/users
+Content-Type: application/json
+
+{
+  "name": "New User",
+  "username": "newuser",
+  "email": "newuser@example.com",
+  "password": "password",
+  "role": "user"
+}
+
+### Update user
+PUT http://127.0.0.1:3000/api/v1/users/1
+Content-Type: application/json
+
+{
+  "name": "John Updated",
+  "username": "johndoe",
+  "email": "john@example.com",
+  "password": "password",
+  "role": "user"
+}
+
+### Delete user
+DELETE http://127.0.0.1:3000/api/v1/users/2
+
+### Create user with hashed password
+POST http://127.0.0.1:3000/api/v1/users
+Content-Type: application/json
+
+{
+  "name": "Hash Test",
+  "username": "hashtest",
+  "email": "hashtest@example.com",
+  "password": "password123",
+  "role": "user"
+}
+### Login
+POST http://127.0.0.1:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "hashtest",
+  "password": "password123"
+}
+### Get current user
+GET http://127.0.0.1:3000/api/v1/auth/me
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJ1c2VybmFtZSI6Imhhc2h0ZXN0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE3ODg5ODM0ODYsImV4cCI6MTc4ODk4NzA4Nn0.lZ4s-VPg4RtS_r6AqcdbFGvjPMxfSY8QZ0D01SaNsaw"
+
+### Get current user
+GET http://127.0.0.1:3000/api/v1/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJ1c2VybmFtZSI6Imhhc2h0ZXN0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE3ODg5ODM0ODYsImV4cCI6MTc4ODk4NzA4Nn0.lZ4s-VPg4RtS_r6AqcdbFGvjPMxfSY8QZ0D01SaNsaw"
