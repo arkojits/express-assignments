@@ -7,9 +7,19 @@ import {
 
 import {authenticateToken} from '../../middlewares/authentication.js';
 
+import {
+  validateLogin,
+  validationErrors,
+} from '../../middlewares/validation.js';
+
 const authRouter = express.Router();
 
-authRouter.post('/login', login);
+authRouter.post(
+  '/login',
+  validateLogin,
+  validationErrors,
+  login
+);
 
 authRouter.get('/me', authenticateToken, getMe);
 

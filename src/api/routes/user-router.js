@@ -8,11 +8,23 @@ import {
   deleteUser,
 } from '../controllers/user-controller.js';
 
+import {
+  validateUser,
+  validationErrors,
+} from '../../middlewares/validation.js';
+
 const userRouter = express.Router();
 
 userRouter.get('/', getUsers);
 userRouter.get('/:id', getUserById);
-userRouter.post('/', postUser);
+
+userRouter.post(
+  '/',
+  validateUser,
+  validationErrors,
+  postUser
+);
+
 userRouter.put('/:id', putUser);
 userRouter.delete('/:id', deleteUser);
 
